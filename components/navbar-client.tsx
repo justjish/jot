@@ -5,7 +5,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { clsx as classNames } from "clsx";
-import Logo from "components/svg/logo";
+import Logo from "~/components/svg/logo";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: () => void }> = ({

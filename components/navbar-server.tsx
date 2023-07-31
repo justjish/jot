@@ -1,5 +1,5 @@
 "use server";
-import { handleSignOut } from "../app/notes/actions";
+import { handleSignOut } from "~/app/notes/actions";
 import Navbar from "~/components/navbar-client";
 import { getSessionClient } from "~/lib/user";
 /**
