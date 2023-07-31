@@ -24,7 +24,7 @@ export default async function Page({
     <div className="flex h-screen">
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         <h1 className="bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100 bg-clip-text text-4xl font-extrabold uppercase text-transparent">
-          Notes
+          Jot
         </h1>
         <Logo className="h-32 w-32" />
         <div className="mb-5 max-w-screen-sm text-center">

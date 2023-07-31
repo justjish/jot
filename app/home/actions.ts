@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { assert } from "superstruct";
 import { SITE_URL } from "~/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export const oauth = async (formData: FormData) => {
   const provider = formData.get("provider")?.toString();
@@ -32,5 +33,6 @@ export const oauth = async (formData: FormData) => {
   });
   if (error) throw error;
   if (!url) throw new Error("No url returned from api.");
+  revalidatePath('/');
   return redirect(url);
 };
