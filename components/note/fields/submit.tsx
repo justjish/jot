@@ -1,6 +1,6 @@
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { useNoteSnap } from "~/components/note/note-provider";
-import Button from "~/components/ui/Button";
+import Button from "~/components/ui/button";
 const Submit = () => {
   const snap = useNoteSnap();
   const { pending } = useFormStatus();
