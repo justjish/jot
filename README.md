@@ -2,7 +2,7 @@
 
 A simple note taking app
 
-**_The app is [Live](jot.jish.dev)_**
+**_The app is [Live](https://jot.jish.dev)_**
 
 ## Running the App
 
