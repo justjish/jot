@@ -3,7 +3,7 @@ import Empty from "~/components/notes/notes-empty";
 import { clsx } from "clsx";
 import { getServerClient } from "~/lib/api-client";
 import Search from "~/components/notes/notes-search";
-import EmptyInsertListener from "~/components/notes/notes-insert-listener";
+import Listener from "~/components/notes/notes-listener";
 
 export default async function Page({
   params,
@@ -54,7 +54,7 @@ export default async function Page({
           </ul>
         </div>
       )}
-      <EmptyInsertListener uid={session.user.id} />
+      <Listener uid={session.user.id} />
     </main>
   );
 }

@@ -38,11 +38,7 @@ export default async function Page({
   return (
     <div className="mx-auto my-10">
       <div className="container mx-auto border-none border-gray-700">
-        {note ? (
-          <NoteForm note={note} />
-        ) : (
-          "This note could not be found or you do not have access to it."
-        )}
+        {note ? <NoteForm note={note} /> : "This note has been deleted!"}
       </div>
     </div>
   );
