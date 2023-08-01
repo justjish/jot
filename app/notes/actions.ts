@@ -17,6 +17,7 @@ export const createNote = async (formData: FormData) => {
     .insert({ content, active_client })
     .select()
     .single();
+  revalidatePath("/notes");
   return data ?? error;
 };
 
@@ -32,5 +33,13 @@ export const updateNote = async (formData: FormData) => {
     .match({ id, slug })
     .select()
     .single();
+  revalidatePath("/notes");
   return data ?? error;
+};
+
+export const deleteNote = async (formData: FormData) => {
+  const slug = String(formData.get("slug"));
+  const { api } = await getActionClient("/notes");
+  await api.from("notes").delete().eq("slug", slug);
+  revalidatePath("/notes");
 };

@@ -1,7 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createRouteCacheClient } from "~/lib/api-client";
-
-import type { Database } from "~/lib/db.types";
 import { SITE_URL } from "~/lib/utils";
 
 export async function GET(request: NextRequest) {

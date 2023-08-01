@@ -1,9 +1,8 @@
 import type { NoteType } from "~/lib/db-note.types";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { getActionClient } from "~/lib/api-client";
-import { revalidatePath } from "next/cache";
 import { LinkHref } from "~/lib/route.types";
+import { deleteNote } from "~/app/notes/actions";
 
 const NotesItem: React.FC<NoteType> = ({
   id,
@@ -13,13 +12,6 @@ const NotesItem: React.FC<NoteType> = ({
   created_at,
   updated_at,
 }) => {
-  const rm = async (formData: FormData) => {
-    "use server";
-    const slug = String(formData.get("slug"));
-    const { api } = await getActionClient("/notes");
-    await api.from("notes").delete().eq("slug", slug);
-    revalidatePath("/notes");
-  };
   return (
     <li
       key={id}
@@ -53,7 +45,7 @@ const NotesItem: React.FC<NoteType> = ({
               Edit
             </Link>
           </div>
-          <form className="-ml-px flex w-0 flex-1" action={rm}>
+          <form className="-ml-px flex w-0 flex-1" action={deleteNote}>
             <input
               className="hidden"
               name="slug"

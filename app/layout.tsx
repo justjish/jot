@@ -9,7 +9,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const title = "Solace Notes";
+const title = "Jot";
 const description = "A simple note taking app";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description,
   },
   metadataBase: new URL("https://jish.dev"),
-  themeColor: "#FFF",
+  themeColor: "#000",
 };
 export default async function Layout(props: { children: React.ReactNode }) {
   return (

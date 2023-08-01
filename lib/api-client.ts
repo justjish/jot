@@ -1,3 +1,4 @@
+"use server";
 import {
   createServerComponentClient,
   createServerActionClient,
@@ -23,7 +24,7 @@ export const createRouteCacheClient = cache(() => {
 });
 
 /**
- * getSessionClient
+ * getServerClient
  *
  * Get the api client ensuring the user is authenticated along the way.
  * @param returnTo If the user is not authenticated, then this where we should send them back to once they are.

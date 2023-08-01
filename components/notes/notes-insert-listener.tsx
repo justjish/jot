@@ -5,7 +5,7 @@ import React from "react";
 import type { Database } from "~/lib/db.types";
 import { useRouter } from "next/navigation";
 
-const EmptyInsert: React.FC<{ uid: string }> = ({ uid }) => {
+const EmptyInsertListener: React.FC<{ uid: string }> = ({ uid }) => {
   const api = createClientComponentClient<Database>();
   const router = useRouter();
   React.useEffect(() => {
@@ -26,4 +26,4 @@ const EmptyInsert: React.FC<{ uid: string }> = ({ uid }) => {
   }, [api, uid, router]);
   return <></>;
 };
-export default EmptyInsert;
+export default EmptyInsertListener;
