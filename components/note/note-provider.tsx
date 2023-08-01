@@ -2,15 +2,16 @@ import { createContext, useContext, useEffect, useRef } from "react";
 import { proxy, subscribe, useSnapshot, ref } from "valtio";
 import { subscribeKey } from "valtio/utils";
 import { min, max } from "./note-constants";
-import type { NoteType } from "~/db/note-type-db";
+import type { NoteType } from "~/lib/db-note.types";
 import { createNote, updateNote } from "~/app/notes/actions";
-import { PostgrestErrorStruct } from "~/db/error";
+import { PostgrestErrorStruct } from "~/lib/db-error.types";
 import { boolean, is } from "superstruct";
 import { toast, useToaster } from "react-hot-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "~/db/types";
+import { Database } from "~/lib/db.types";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
+import { RouterReplace } from "~/lib/route.types";
 
 export type NoteStateType = NoteType & {
   /** A reference to the form element */
@@ -33,7 +34,13 @@ export type NoteStateType = NoteType & {
 
 /** Need an efficient way to access the ui state of the form without prop drilling everywhere */
 const NoteContext = createContext<undefined | NoteStateType>(undefined);
-export const NoteProvider = ({ children, init }: { children: React.ReactNode; init: NoteType }) => {
+export const NoteProvider = ({
+  children,
+  init,
+}: {
+  children: React.ReactNode;
+  init: NoteType;
+}) => {
   const api = createClientComponentClient<Database>();
 
   const router = useRouter();
@@ -53,13 +60,15 @@ export const NoteProvider = ({ children, init }: { children: React.ReactNode; in
         const isUpdate = typeof state.slug === "string" && state.slug !== "new";
         const res = await (isUpdate ? updateNote : createNote)(formData);
         if (is(res, PostgrestErrorStruct) || res.slug === null) {
-          return toast.error("Something went wrong. Try again in a few seconds.");
+          return toast.error(
+            "Something went wrong. Try again in a few seconds.",
+          );
         }
         if (!isUpdate) {
           state.id = res.id;
           state.slug = res.slug;
           toast.success("Your new note has been created!");
-          router.replace(res.slug);
+          router.replace(res.slug as RouterReplace);
         }
       },
     }),
@@ -97,10 +106,19 @@ export const NoteProvider = ({ children, init }: { children: React.ReactNode; in
     const contentSubscription = subscribeKey(state, "content", async (c) => {
       state.isUnderMax = c.length <= 500;
       state.isUnderMin = c.length <= 20;
-      if (state.autosave === false && state.isUnderMax === true && state.isUnderMin === false) {
+      if (
+        state.autosave === false &&
+        state.isUnderMax === true &&
+        state.isUnderMin === false
+      ) {
         state.disableSubmit = false;
       }
-      if (state.autosave && state.isLocalUpdate && state.isUnderMax === true && state.isUnderMin === false) {
+      if (
+        state.autosave &&
+        state.isLocalUpdate &&
+        state.isUnderMax === true &&
+        state.isUnderMin === false
+      ) {
         if (state.ref?.current) {
           const formData = new FormData(state.ref.current);
           formData.set("content", c);
@@ -141,7 +159,8 @@ export const NoteProvider = ({ children, init }: { children: React.ReactNode; in
 
 export const useNoteState = () => {
   const state = useContext(NoteContext);
-  if (state === undefined) throw new Error("useNoteProxy must be used within a NoteProvider");
+  if (state === undefined)
+    throw new Error("useNoteProxy must be used within a NoteProvider");
   return state;
 };
 export const useNoteSnap = () => {

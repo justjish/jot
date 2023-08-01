@@ -5,7 +5,7 @@ import Logo from "~/components/svg/logo";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 export default async function Page({
   params,
   searchParams,

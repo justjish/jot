@@ -2,7 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Navbar from "~/components/navbar-client";
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 import { handleSignOut } from "./actions";
 
 // Everything past the 'notes' path required Auth.

@@ -1,7 +1,5 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { Database } from "~/db/types";
+import { createServerCacheClient } from "~/lib/api-client";
 
 export default async function Page({
   params,
@@ -10,7 +8,7 @@ export default async function Page({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const api = createServerComponentClient<Database>({ cookies });
+  const api = createServerCacheClient();
   const {
     data: { session },
   } = await api.auth.getSession();

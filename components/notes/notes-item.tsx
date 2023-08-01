@@ -1,10 +1,18 @@
-import type { NoteType } from "~/db/note-type-db";
+import type { NoteType } from "~/lib/db-note.types";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { getActionClient } from "~/lib/user";
+import { getActionClient } from "~/lib/api-client";
 import { revalidatePath } from "next/cache";
+import { LinkHref } from "~/lib/route.types";
 
-const NotesItem: React.FC<NoteType> = ({ id, content, slug, user_id, created_at, updated_at }) => {
+const NotesItem: React.FC<NoteType> = ({
+  id,
+  content,
+  slug,
+  user_id,
+  created_at,
+  updated_at,
+}) => {
   const rm = async (formData: FormData) => {
     "use server";
     const slug = String(formData.get("slug"));
@@ -13,7 +21,10 @@ const NotesItem: React.FC<NoteType> = ({ id, content, slug, user_id, created_at,
     revalidatePath("/notes");
   };
   return (
-    <li key={id} className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
+    <li
+      key={id}
+      className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
+    >
       <div className="flex flex-1 flex-col p-8">
         <dl className="mt-1 flex  flex-col justify-between">
           <dt className="sr-only">Last Updated</dt>
@@ -23,22 +34,32 @@ const NotesItem: React.FC<NoteType> = ({ id, content, slug, user_id, created_at,
             </span>
           </dd>
         </dl>
-        <h3 className="mt-6 h-16 overflow-y-auto text-sm font-medium text-gray-900">{content}</h3>
+        <h3 className="mt-6 h-16 overflow-y-auto text-sm font-medium text-gray-900">
+          {content}
+        </h3>
       </div>
       <div>
         <div className="-mt-px flex divide-x divide-gray-200">
           <div className="flex w-0 flex-1">
             <Link
-              href={`notes/${slug}`}
+              href={`notes/${slug}` as LinkHref}
               prefetch={true}
               className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
             >
-              <PencilSquareIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              <PencilSquareIcon
+                className="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
               Edit
             </Link>
           </div>
           <form className="-ml-px flex w-0 flex-1" action={rm}>
-            <input className="hidden" name="slug" readOnly value={slug ?? "never"} />
+            <input
+              className="hidden"
+              name="slug"
+              readOnly
+              value={slug ?? "never"}
+            />
             <button
               type="submit"
               className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"

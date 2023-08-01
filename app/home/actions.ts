@@ -1,7 +1,7 @@
 "use server";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { ActiveProvidersStruct } from "~/components/auth/social-constants";
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { assert } from "superstruct";
@@ -9,7 +9,7 @@ import { SITE_URL } from "~/lib/utils";
 import { revalidatePath } from "next/cache";
 
 export const oauth = async (formData: FormData) => {
-  const provider = formData.get("provider")?.toString();
+  const provider = String(formData.get("provider"));
   const possibleReturnToSA = formData.get("returnTo");
   // Ensure the provider is an active one.
   assert(provider, ActiveProvidersStruct);
@@ -33,6 +33,6 @@ export const oauth = async (formData: FormData) => {
   });
   if (error) throw error;
   if (!url) throw new Error("No url returned from api.");
-  revalidatePath('/');
+  revalidatePath("/");
   return redirect(url);
 };

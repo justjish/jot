@@ -1,5 +1,5 @@
 "use client";
-import type { NoteType } from "~/db/note-type-db";
+import type { NoteType } from "~/lib/db-note.types";
 import { NoteProvider } from "./note-provider";
 import Form from "./views/form";
 const NoteForm = ({ note }: { note: NoteType }) => {

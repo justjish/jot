@@ -2,7 +2,7 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 import { useRouter } from "next/navigation";
 
 const EmptyInsert: React.FC<{ uid: string }> = ({ uid }) => {
@@ -23,7 +23,7 @@ const EmptyInsert: React.FC<{ uid: string }> = ({ uid }) => {
       )
       .subscribe();
     return () => void channel.unsubscribe(); // unsubscribe on unmount
-  }, [api, uid]);
+  }, [api, uid, router]);
   return <></>;
 };
 export default EmptyInsert;

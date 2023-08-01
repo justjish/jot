@@ -1,2 +1,2 @@
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 export type NoteType = Database["public"]["Tables"]["notes"]["Row"];

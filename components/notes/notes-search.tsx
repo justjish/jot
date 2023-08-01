@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import { useRouter } from "next/navigation";
 import { SITE_URL } from "~/lib/utils";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
+import { RouterReplace } from "~/lib/route.types";
 
 export default function Search({ className }: { className?: string }) {
   const router = useRouter();
@@ -23,8 +24,9 @@ export default function Search({ className }: { className?: string }) {
         onChange={(evt) => {
           const url = new URL("/notes", SITE_URL);
           const val = evt.currentTarget.value;
-          if (val.length > 0) url.searchParams.set("search", evt.currentTarget.value);
-          router.replace(url.toString());
+          if (val.length > 0)
+            url.searchParams.set("search", evt.currentTarget.value);
+          router.replace(url.toString() as RouterReplace);
         }}
       />
       <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">

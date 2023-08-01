@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { getActionClient } from "~/lib/user";
+import { getActionClient } from "~/lib/api-client";
 
 export const handleSignOut = async () => {
   const { api } = await getActionClient();
@@ -12,7 +12,11 @@ export const createNote = async (formData: FormData) => {
   const { api } = await getActionClient();
   const content = String(formData.get("content"));
   const active_client = String(formData.get("active_client"));
-  const { status, error, data } = await api.from("notes").insert({ content, active_client }).select().single();
+  const { status, error, data } = await api
+    .from("notes")
+    .insert({ content, active_client })
+    .select()
+    .single();
   return data ?? error;
 };
 

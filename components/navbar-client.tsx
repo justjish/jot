@@ -8,12 +8,13 @@ import { clsx as classNames } from "clsx";
 import Logo from "~/components/svg/logo";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: () => void }> = ({
-  imgUrl,
-  name,
-  email,
-  signOut,
-}) => {
+import { LinkHref } from "~/lib/route.types";
+export const Navbar: FC<{
+  imgUrl: string;
+  name: string;
+  email: string;
+  signOut: () => void;
+}> = ({ imgUrl, name, email, signOut }) => {
   const [, startTransition] = useTransition();
   const segment = useSelectedLayoutSegment();
   return (
@@ -41,7 +42,9 @@ export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: 
                   <Link
                     href={"/home"}
                     className={classNames(
-                      segment === null ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      segment === null
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
                       "rounded-md px-3 py-2 text-sm font-medium",
                     )}
                     aria-current={segment === null ? "page" : undefined}
@@ -52,12 +55,15 @@ export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: 
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link href={"/notes/new"}>
+                  <Link href={"/notes/new" as LinkHref}>
                     <button
                       type="button"
                       className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                     >
-                      <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
+                      <PlusIcon
+                        className="-ml-0.5 h-5 w-5"
+                        aria-hidden="true"
+                      />
                       New Note
                     </button>
                   </Link>
@@ -69,7 +75,13 @@ export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: 
                     <div>
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="sr-only">Open user menu</span>
-                        <Image className="h-8 w-8 rounded-full" src={imgUrl} alt="" width={32} height={32} />
+                        <Image
+                          className="h-8 w-8 rounded-full"
+                          src={imgUrl}
+                          alt=""
+                          width={32}
+                          height={32}
+                        />
                       </Menu.Button>
                     </div>
                     <Transition
@@ -109,7 +121,9 @@ export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: 
                 as={Link}
                 href={"/"}
                 className={classNames(
-                  segment === null ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  segment === null
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "block rounded-md px-3 py-2 text-base font-medium",
                 )}
                 aria-current={segment === null ? "page" : undefined}
@@ -120,11 +134,19 @@ export const Navbar: FC<{ imgUrl: string; name: string; email: string; signOut: 
             <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5 sm:px-6">
                 <div className="flex-shrink-0">
-                  <Image className="h-10 w-10 rounded-full" src={imgUrl} alt="" width={40} height={40} />
+                  <Image
+                    className="h-10 w-10 rounded-full"
+                    src={imgUrl}
+                    alt=""
+                    width={40}
+                    height={40}
+                  />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">{name}</div>
-                  <div className="text-sm font-medium text-gray-400">{email}</div>
+                  <div className="text-sm font-medium text-gray-400">
+                    {email}
+                  </div>
                 </div>
               </div>
               <div className="mt-3 space-y-1 px-2 sm:px-3">

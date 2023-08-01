@@ -1,8 +1,26 @@
-import { createServerComponentClient, createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import type { Database } from "~/db/types";
+import {
+  createServerComponentClient,
+  createServerActionClient,
+  createRouteHandlerClient,
+} from "@supabase/auth-helpers-nextjs";
+import type { Database } from "~/lib/db.types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SITE_URL } from "./utils";
+import { cache } from "react";
+
+export const createServerCacheClient = cache(() => {
+  const cookieStore = cookies();
+  return createServerComponentClient<Database>({ cookies: () => cookieStore });
+});
+export const createActionCacheClient = cache(() => {
+  const cookieStore = cookies();
+  return createServerActionClient<Database>({ cookies: () => cookieStore });
+});
+export const createRouteCacheClient = cache(() => {
+  const cookieStore = cookies();
+  return createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+});
 
 /**
  * getSessionClient
@@ -11,8 +29,8 @@ import { SITE_URL } from "./utils";
  * @param returnTo If the user is not authenticated, then this where we should send them back to once they are.
  * @returns
  */
-export const getSessionClient = async (returnTo?: string) => {
-  const supabase = createServerComponentClient<Database>({ cookies });
+export const getServerClient = async (returnTo?: string) => {
+  const supabase = createServerCacheClient();
   const {
     data: { session },
     error,
@@ -32,7 +50,7 @@ export const getSessionClient = async (returnTo?: string) => {
  * TODO: Use a modal to login user so that the pending note doesn't disappear.
  */
 export const getActionClient = async (returnTo?: string) => {
-  const supabase = createServerActionClient<Database>({ cookies });
+  const supabase = createActionCacheClient();
   const {
     data: { session },
     error,

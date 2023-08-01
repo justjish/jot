@@ -1,8 +1,7 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
+import { createRouteCacheClient } from "~/lib/api-client";
 
-import type { Database } from "~/db/types";
+import type { Database } from "~/lib/db.types";
 import { SITE_URL } from "~/lib/utils";
 
 export async function GET(request: NextRequest) {
@@ -10,7 +9,7 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get("code");
   const returnTo = requestUrl.searchParams.get("returnTo");
   if (code) {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const supabase = createRouteCacheClient();
     await supabase.auth.exchangeCodeForSession(code);
   }
   const redirectUrl = new URL("/notes", SITE_URL);
